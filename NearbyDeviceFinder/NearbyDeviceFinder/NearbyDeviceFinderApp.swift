@@ -1,10 +1,3 @@
-//
-//  NearbyDeviceFinderApp.swift
-//  NearbyDeviceFinder
-//
-//  Created by Oleh Didushok on 28.09.2026.
-//
-
 import SwiftUI
 
 @main
