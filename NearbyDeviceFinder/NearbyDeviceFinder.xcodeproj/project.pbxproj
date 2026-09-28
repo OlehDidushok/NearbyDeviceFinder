@@ -244,6 +244,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app scans for nearby Bluetooth devices to demonstrate RSSI-based (signal strength) proximity estimation, for comparison with Ultra Wideband ranging.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app uses the local network to discover the other demo phone and exchange Nearby Interaction tokens with it.";
+				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "This app uses Nearby Interaction (Ultra Wideband) to measure the precise distance and direction to another nearby iPhone as part of a tech-talk demo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -276,6 +279,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app scans for nearby Bluetooth devices to demonstrate RSSI-based (signal strength) proximity estimation, for comparison with Ultra Wideband ranging.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app uses the local network to discover the other demo phone and exchange Nearby Interaction tokens with it.";
+				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "This app uses Nearby Interaction (Ultra Wideband) to measure the precise distance and direction to another nearby iPhone as part of a tech-talk demo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
