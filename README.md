@@ -15,7 +15,7 @@ the NearbyInteraction docs).
 
 ## Requirements
 
-- A Mac with Xcode 27 or later (the project targets iOS 27).
+- A Mac with Xcode 27 or later. The app runs on iOS 18.0 and later.
 - **Two physical iPhones with a U1 or U2 chip** for the live UWB demo — the
   Simulator cannot do Nearby Interaction ranging at all. iPhone 12 Pro (U1)
   works fine; you said you have two of these, so you're set. Both phones
@@ -76,7 +76,7 @@ In Xcode:
 - The Multipeer discovery policy auto-invites the first peer it sees — fine
   for a two-phone demo, not something you'd ship as-is (a real app would
   filter by a room code, show a picker, or require explicit pairing).
-- The on-screen arrow uses a simplified 2D bearing (`atan2(x, z)`) from the
+- The on-screen arrow uses a simplified 2D bearing (`atan2(x, -z)`) from the
   3D direction vector — good enough for a flat UI arrow, not a full 3D
   compass.
 - The RSSI→distance formula (`10 ^ ((measuredPower - RSSI) / (10 × n))`) is

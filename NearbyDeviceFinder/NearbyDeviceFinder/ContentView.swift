@@ -42,12 +42,10 @@ struct ContentView: View {
                     .frame(width: 160, height: 160)
 
                 if let direction = nearbyInteraction.direction {
-                    // Simplified 2D bearing from the 3D direction vector —
-                    // good enough for a flat on-screen arrow demo.
                     Image(systemName: "location.north.fill")
                         .font(.system(size: 64))
                         .foregroundStyle(.blue)
-                        .rotationEffect(.radians(Double(atan2(direction.x, direction.z))))
+                        .rotationEffect(arrowAngle(for: direction))
                         .animation(.easeOut(duration: 0.2), value: direction)
                 } else {
                     Image(systemName: "location.slash")
@@ -72,9 +70,32 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
+            #if targetEnvironment(simulator)
+            Text("Simulator: values come from the spacing of the simulator windows, not a UWB radio.")
+                .font(.caption2)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal)
+            #endif
+
             Spacer()
         }
         .padding()
+    }
+
+    /// Rotation for the flat on-screen arrow, clockwise from "up" — a
+    /// simplified 2D bearing from the 3D direction vector.
+    private func arrowAngle(for direction: SIMD3<Float>) -> Angle {
+        #if targetEnvironment(simulator)
+        // Simulator builds the vector from where the other simulator window
+        // sits on the Mac's screen (x = to the right, y = above), so point
+        // the arrow straight at that window.
+        return .radians(Double(atan2(direction.x, direction.y)))
+        #else
+        // On a device a peer straight ahead is at -z, so the arrow points up
+        // for (0, 0, -1) and leans right as x grows.
+        return .radians(Double(atan2(direction.x, -direction.z)))
+        #endif
     }
 
     // MARK: - Bluetooth RSSI tab

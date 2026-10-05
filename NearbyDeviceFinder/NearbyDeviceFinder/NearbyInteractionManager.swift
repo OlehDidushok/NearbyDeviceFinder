@@ -66,8 +66,8 @@ extension NearbyInteractionManager: NISessionDelegate {
         distance = peer.distance
         direction = peer.direction
 
-        if peer.direction == nil, let d = peer.distance {
-            statusText = String(format: "In range (%.2f m) but out of line of sight — point the back cameras at each other.", d)
+        if peer.direction == nil, peer.distance != nil {
+            statusText = "Distance only — out of line of sight. Point the back cameras at each other to get direction."
         } else if peer.direction != nil {
             statusText = "Tracking peer"
         }

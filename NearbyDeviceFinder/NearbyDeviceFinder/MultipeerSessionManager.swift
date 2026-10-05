@@ -117,11 +117,8 @@ extension MultipeerSessionManager: MCNearbyServiceBrowserDelegate {
         browser.invitePeer(peerID, to: session, withContext: nil, timeout: 10)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        DispatchQueue.main.async {
-            if self.connectedPeerName == peerID.displayName {
-                self.connectedPeerName = nil
-            }
-        }
-    }
+    // Losing the peer's advertisement doesn't mean the session dropped — the
+    // browser often reports this while the MCSession stays connected, so
+    // connection state is driven only by session(_:peer:didChange:).
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {}
 }
