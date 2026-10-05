@@ -112,20 +112,44 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 
-            List(bluetooth.peripherals.sorted(by: { $0.rssi > $1.rssi })) { peripheral in
+            Toggle("Show all nearby devices", isOn: $bluetooth.showAllDevices)
+                .padding(.horizontal)
+
+            List(bluetooth.sortedPeripherals) { peripheral in
                 HStack {
                     VStack(alignment: .leading) {
                         Text(peripheral.name)
-                        Text("~\(String(format: "%.1f", peripheral.estimatedMeters)) m (est.)")
+                        if bluetooth.showAllDevices, peripheral.isDemoPhone {
+                            Text("Demo phone")
+                                .font(.caption)
+                                .foregroundStyle(.blue)
+                        }
+                        Text("\(peripheral.proximity.rawValue) · ~\(String(format: "%.1f", peripheral.estimatedMeters)) m (est.)")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Text("\(peripheral.rssi) dBm")
-                        .font(.system(.body, design: .monospaced))
+                    VStack(alignment: .trailing) {
+                        Text("\(peripheral.rssi) dBm")
+                            .font(.system(.body, design: .monospaced))
+                        Text("avg \(Int(peripheral.smoothedRSSI.rounded())) dBm")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
             .listStyle(.plain)
+            .overlay {
+                if bluetooth.isScanning, bluetooth.peripherals.isEmpty {
+                    Text(bluetooth.showAllDevices
+                         ? "No devices found yet."
+                         : "Open this app on the other phone to see it here.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+            }
 
             Text(bluetooth.statusText)
                 .font(.footnote)

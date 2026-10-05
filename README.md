@@ -5,8 +5,10 @@ proximity APIs. It's meant to be read alongside the talk, not shipped.
 
 - **UWB Precision tab** — uses `NearbyInteraction` (Ultra Wideband) to show
   live distance + direction to a second phone running the same app.
-- **Bluetooth RSSI tab** — scans nearby BLE advertisers and shows raw signal
-  strength plus a rough, illustrative distance estimate, for contrast.
+- **Bluetooth RSSI tab** — finds the other phone running the app over BLE
+  and shows its raw signal strength, a smoothed average, and a rough,
+  illustrative distance estimate, for contrast. A switch lists every BLE
+  advertiser in range instead.
 
 Peer discovery and the handshake that hands Nearby Interaction its
 `NIDiscoveryToken` are done with `MultipeerConnectivity` (Apple's own
@@ -46,10 +48,11 @@ In Xcode:
 
 ## Demo script (suggested)
 
-1. **Bluetooth RSSI tab first.** Start a scan on one phone. Point out the
-   dBm numbers jumping around and the "estimated meters" column drifting
-   even when the phone isn't moving — this is the "old way," and it has no
-   sense of direction at all.
+1. **Bluetooth RSSI tab first.** With the app open on both phones, start a
+   scan on one — the other phone shows up as a single row. Point out the raw
+   dBm number jumping around and the estimate drifting even when the phone
+   isn't moving — this is the "old way," and it has no sense of direction
+   at all. Flip "Show all nearby devices" to show how crowded the air is.
 2. **Switch to the UWB tab** on both phones. Within a few seconds they
    should find each other over Multipeer Connectivity and Nearby
    Interaction will start ranging — point out the arrow and the distance
@@ -68,7 +71,7 @@ In Xcode:
 |---|---|
 | `NearbyInteractionManager.swift` | Owns the `NISession`, publishes `distance`/`direction`, implements `NISessionDelegate`. |
 | `MultipeerSessionManager.swift` | Finds the other phone (MCNearbyServiceAdvertiser/Browser) and ships the `NIDiscoveryToken` back and forth once connected. |
-| `BluetoothRSSIManager.swift` | `CBCentralManager` scan + a simple log-distance RSSI→meters estimate, for the comparison tab. |
+| `BluetoothRSSIManager.swift` | Advertises a demo service (`CBPeripheralManager`) and scans for it (`CBCentralManager`), smooths RSSI, and applies a simple log-distance RSSI→meters estimate, for the comparison tab. |
 | `ContentView.swift` | Wires the three managers together and renders both tabs. |
 
 ## Known simplifications (worth saying out loud in the talk)
